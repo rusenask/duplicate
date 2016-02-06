@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- /* Copyright (C) Karolis Rusenas - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Karolis Rusenas <karolis.rusenas@gmail.com>, February 2016
+ */  -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.golang.example.bind" >
+
+    <!-- In order to access the network, your application manifest must
+      specify the permission requirement. See the following page for
+      details.
+      http://developer.android.com/guide/topics/manifest/manifest-intro.html#perms -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:label="Duplicate">
+
+        <activity
+            android:name=".WebViewActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/appName" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
