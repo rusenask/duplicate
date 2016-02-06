@@ -4,7 +4,7 @@
  * Written by Karolis Rusenas <karolis.rusenas@gmail.com>, February 2016
  */
 
-package pocketsv
+package duplicate
 
 import (
 	log "github.com/Sirupsen/logrus"

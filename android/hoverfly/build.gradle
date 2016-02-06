@@ -11,7 +11,7 @@ gobind {
     /* The Go package path; must be under one of the GOPATH elements or
      a relative to the current directory (e.g. ../../hello) */
 //    pkg = "golang.org/x/mobile/example/bind/hello"
-    pkg = "github.com/rusenask/pocketsv"
+    pkg = "github.com/rusenask/duplicate"
 
     /* GOPATH where the Go package is; check `go env` */
 //    GOPATH = "/Users/karolisrusenas/Projects"

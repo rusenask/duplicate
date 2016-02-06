@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.content.Context;
 
 import android.content.Intent;
-import go.pocketsv.Pocketsv;
+import go.duplicate.Duplicate;
 
 
 
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 
         goProcess = new Thread(new Runnable() {
             public void run() {
-                Pocketsv.Start(mode, path);
+                Duplicate.Start(mode, path);
             }
         });
 
