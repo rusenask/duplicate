@@ -43,14 +43,14 @@ func Start(mode, databasePath string) {
 
 	proxy, dbClient := hv.GetNewHoverfly(cfg)
 
-	//mc := &MasterConfiguration{
-	//	hdb: &dbClient,
-	//}
+	mc := &MasterConfiguration{
+		hdb: &dbClient,
+	}
 	defer dbClient.Cache.DS.Close()
 
 	// starting admin interface
 	//dbClient.StartAdminInterface()
-	StartWebUI(&dbClient)
+	mc.StartWebUI()
 
 	log.Info("Admin interface started")
 	// start metrics registry flush
@@ -68,33 +68,33 @@ func Greet(mode string) string {
 	return fmt.Sprintf("Hoverfly ready, %s mode!", mode)
 }
 
+type MasterConfiguration struct {
+	hdb *hv.DBClient
+}
+
 // StartAdminInterface - starts admin interface web server
-func StartWebUI(d *hv.DBClient) {
+func (mc *MasterConfiguration) StartWebUI() {
 	go func() {
 		// starting admin interface
-		mux := getBoneRouter(d)
+		mux := getBoneRouter(mc)
 		n := negroni.Classic()
 
 		logLevel := log.WarnLevel
-
-		if d.Cfg.Verbose {
-			logLevel = log.DebugLevel
-		}
 
 		n.Use(negronilogrus.NewCustomMiddleware(logLevel, &log.JSONFormatter{}, "admin"))
 		n.UseHandler(mux)
 
 		// admin interface starting message
 		log.WithFields(log.Fields{
-			"UIPort": d.Cfg.AdminPort,
+			"UIPort": mc.hdb.Cfg.AdminPort,
 		}).Info("Web UI is starting...")
 
-		n.Run(fmt.Sprintf(":%s", d.Cfg.AdminPort))
+		n.Run(fmt.Sprintf(":%s", mc.hdb.Cfg.AdminPort))
 	}()
 }
 
 // getBoneRouter returns mux for admin interface
-func getBoneRouter(d *hv.DBClient) *bone.Mux {
+func getBoneRouter(m *MasterConfiguration) *bone.Mux {
 	mux := bone.New()
 
 	// preparing static assets for embedded admin
@@ -105,22 +105,18 @@ func getBoneRouter(d *hv.DBClient) *bone.Mux {
 		}).Error("Failed to load statikFS, admin UI might not work :(")
 	}
 
-	mux.Get("/records", http.HandlerFunc(d.AllRecordsHandler))
-	mux.Delete("/records", http.HandlerFunc(d.DeleteAllRecordsHandler))
-	mux.Post("/records", http.HandlerFunc(d.ImportRecordsHandler))
+	mux.Get("/records", http.HandlerFunc(m.hdb.AllRecordsHandler))
+	mux.Delete("/records", http.HandlerFunc(m.hdb.DeleteAllRecordsHandler))
+	mux.Post("/records", http.HandlerFunc(m.hdb.ImportRecordsHandler))
 
-	mux.Get("/count", http.HandlerFunc(d.RecordsCount))
-	mux.Get("/stats", http.HandlerFunc(d.StatsHandler))
-	mux.Get("/statsws", http.HandlerFunc(d.StatsWSHandler))
+	mux.Get("/count", http.HandlerFunc(m.hdb.RecordsCount))
+	mux.Get("/stats", http.HandlerFunc(m.hdb.StatsHandler))
+	mux.Get("/statsws", http.HandlerFunc(m.hdb.StatsWSHandler))
 
-	mux.Get("/state", http.HandlerFunc(d.CurrentStateHandler))
-	mux.Post("/state", http.HandlerFunc(d.StateHandler))
+	mux.Get("/state", http.HandlerFunc(m.hdb.CurrentStateHandler))
+	mux.Post("/state", http.HandlerFunc(m.hdb.StateHandler))
 
-	if d.Cfg.Development {
-		mux.Handle("/*", http.FileServer(http.Dir("static/dist")))
-	} else {
-		mux.Handle("/*", http.FileServer(statikFS))
-	}
+	mux.Handle("/*", http.FileServer(statikFS))
 
 	return mux
 }
