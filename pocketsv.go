@@ -1,3 +1,9 @@
+/* Copyright (C) Karolis Rusenas - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Karolis Rusenas <karolis.rusenas@gmail.com>, February 2016
+ */
+
 package pocketsv
 
 import (
@@ -7,6 +13,11 @@ import (
 
 	"fmt"
 )
+
+type MasterConfiguration struct {
+	hvCfg      *hv.Configuration
+	hvDBClient *hv.DBClient
+}
 
 func Start(mode, databasePath string) {
 	log.SetFormatter(&log.TextFormatter{})
@@ -27,6 +38,11 @@ func Start(mode, databasePath string) {
 	cfg.DatabaseName = fmt.Sprintf("%s/requests.db", databasePath)
 
 	proxy, dbClient := hv.GetNewHoverfly(cfg)
+
+	//mc := &MasterConfiguration{
+	//	hvCfg:      cfg,
+	//	hvDBClient: dbClient,
+	//}
 	defer dbClient.Cache.DS.Close()
 
 	// starting admin interface
