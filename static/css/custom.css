@@ -1,39 +1,22 @@
 /* Shared
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.button {
-    border-radius: 100px;
+/*.button {*/
+    /*border-radius: 100px;*/
+/*}*/
+
+/*.button-primary {*/
+    /*border-radius: 100px;*/
+/*}*/
+
+.bg-wp {
+    background: url('../images/tileable-metal-textures-4.jpg') no-repeat center center fixed;
+    /*background: url(images/bg.jpg) no-repeat center center fixed;*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-.button-primary {
-    border-radius: 100px;
-}
-
-.bg-container {
-    position: relative;
-    /*background: #dce0ff;*/
-    overflow: hidden;
-}
-
-.bg-container::after {
-    content: "";
-    background: url('../images/pixelhalftone2740.jpg') no-repeat center center fixed;
-
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -1;
-
-    /*-webkit-background-size: cover;*/
-    /*-moz-background-size: cover;*/
-    /*-o-background-size: cover;*/
-    /*background-size: cover;*/
-    /*color: #fff;*/
-
-    opacity: 0.3;
-    filter: alpha(opacity=40); /* For IE8 and earlier */
-}
 /* Sections
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .section {
@@ -57,26 +40,6 @@
 }
 .phone + .phone {
     display: none;
-}
-
-/* Values
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.values {
-    background-image: url('../images/carbon-fiber.jpg');
-    background-size: cover;
-    color: #fff;
-    padding-bottom: 5rem;
-}
-.value-multiplier {
-    margin-bottom: .5rem;
-    color: #11DFC7;
-}
-.value-heading {
-    margin-bottom: .3rem;
-}
-.value-description {
-    opacity: .8;
-    font-weight: 300;
 }
 
 /* Help

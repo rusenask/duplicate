@@ -35,7 +35,8 @@ let ModeInfoComponent = React.createClass({
                 <div>
                     <p>
                         When capture mode is active, Duplicate intercepts requests and then makes them on behalf of the
-                        client. In this mode, middleware is applied to outgoing traffic. Requests and responses are stored in
+                        client. In this mode, middleware is applied to outgoing traffic. Requests and responses are
+                        stored in
                         embedded database as JSON structures.
                     </p>
                 </div>
@@ -138,13 +139,26 @@ let StateChangeComponent = React.createClass({
             "mode": this.state.mode
         };
 
+
+        /* for now these are missing:
+         <div className="row">
+         <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
+         </div>
+         <div className="row">
+         <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">
+         Synthesize
+         </button>
+         </div>
+        *
+        * */
+
         return (
             <div>
 
                 <div className="section hero">
                     <div className="container">
                         <div>
-                            <h3>Duplicate</h3>
+                            <h3><strong>Duplicate</strong></h3>
                         </div>
                         <hr/>
                         <div className="row">
@@ -155,15 +169,10 @@ let StateChangeComponent = React.createClass({
                                     </button>
                                 </div>
                                 <div className="row">
-                                <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
-                                </div>
-                                <div className="row">
                                     <button className={captureClass} onClick={this.changeMode} value="capture">Capture
-                                </button>
-                                    </div>
-                                <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">
-                                    Synthesize
-                                </button>
+                                    </button>
+                                </div>
+
                             </div>
                             <div className="two-thirds column">
                                 <ModeInfoComponent data={data}/>

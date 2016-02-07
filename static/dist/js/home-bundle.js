@@ -182,6 +182,18 @@
 	            "mode": this.state.mode
 	        };
 
+	        /* for now these are missing:
+	         <div className="row">
+	         <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
+	         </div>
+	         <div className="row">
+	         <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">
+	         Synthesize
+	         </button>
+	         </div>
+	        *
+	        * */
+
 	        return _react2.default.createElement(
 	            'div',
 	            null,
@@ -197,7 +209,11 @@
 	                        _react2.default.createElement(
 	                            'h3',
 	                            null,
-	                            'Duplicate'
+	                            _react2.default.createElement(
+	                                'strong',
+	                                null,
+	                                'Duplicate'
+	                            )
 	                        )
 	                    ),
 	                    _react2.default.createElement('hr', null),
@@ -221,23 +237,9 @@
 	                                { className: 'row' },
 	                                _react2.default.createElement(
 	                                    'button',
-	                                    { className: modifyClass, onClick: this.changeMode, value: 'modify' },
-	                                    'Modify'
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'row' },
-	                                _react2.default.createElement(
-	                                    'button',
 	                                    { className: captureClass, onClick: this.changeMode, value: 'capture' },
 	                                    'Capture'
 	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'button',
-	                                { className: synthesizeClass, onClick: this.changeMode, value: 'synthesize' },
-	                                'Synthesize'
 	                            )
 	                        ),
 	                        _react2.default.createElement(
