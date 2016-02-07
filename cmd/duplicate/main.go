@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	dp.Start("virtualize", ".")
+	dp.Start("virtualize", ".", "not android, you silly")
 }
