@@ -24,9 +24,9 @@ let ModeInfoComponent = React.createClass({
         if (mode == VirtualizeMode) {
             return (
                 <div>
-                    <p>This mode enables service virtualization. Hoverfly uses captured requests and their unique
-                       identifiers (such as a query, a method, etc.) to find the best response. In this mode, middleware
-                       will be applied to matched responses.
+                    <p>This mode enables service virtualization. Duplicate uses captured requests and their unique
+                        identifiers (such as a query, a method, etc.) to find the best response. In this mode,
+                        middleware will be applied to matched responses.
                     </p>
                 </div>
             )
@@ -34,8 +34,8 @@ let ModeInfoComponent = React.createClass({
             return (
                 <div>
                     <p>
-                        When capture mode is active, Hoverfly intercepts requests and then makes them on behalf of the client.
-                        In this mode, middleware is applied to outgoing traffic. Requests and responses are stored in
+                        When capture mode is active, Duplicate intercepts requests and then makes them on behalf of the
+                        client. In this mode, middleware is applied to outgoing traffic. Requests and responses are stored in
                         embedded database as JSON structures.
                     </p>
                 </div>
@@ -45,8 +45,10 @@ let ModeInfoComponent = React.createClass({
                 <div>
                     <p>
                         Synthesize mode enables completely synthetic, virtual services. Middleware is required for this
-                        mode to work. The JSON payload with the incoming request information is supplied to the middleware.
-                        The middleware must then supply data to be returned in the response. More about this in project readme.
+                        mode to work. The JSON payload with the incoming request information is supplied to the
+                        middleware.
+                        The middleware must then supply data to be returned in the response. More about this in project
+                        readme.
                     </p>
                 </div>
             )
@@ -54,8 +56,9 @@ let ModeInfoComponent = React.createClass({
             return (
                 <div>
                     <p>
-                        Modify mode applies middleware to both outbound and inbound HTTP/HTTPS traffic, allowing you to modify requests
-                        and responses on the fly. Hoverfly doesn't record anything when modify mode is enabled.
+                        Modify mode applies middleware to both outbound and inbound HTTP/HTTPS traffic, allowing you to
+                        modify requests and responses on the fly.
+                        Duplicate doesn't record anything when modify mode is enabled.
                     </p>
                 </div>
             )
@@ -137,27 +140,43 @@ let StateChangeComponent = React.createClass({
 
         return (
             <div>
-                <hr/>
-                <div className="row">
-                    <div className="two-thirds column">
-                        <button className={virtualizeClass} onClick={this.changeMode} value="virtualize">Virtualize
-                        </button>
-                        {' '}
-                        <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
-                        {' '}
-                        <button className={captureClass} onClick={this.changeMode} value="capture">Capture</button>
-                        {' '}
-                        <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">Synthesize
-                        </button>
-                    </div>
-                    <div className="one-third column">
-                        <ModeInfoComponent data={data}/>
+
+                <div className="section hero">
+                    <div className="container">
+                        <div>
+                            <h3>Duplicate</h3>
+                        </div>
+                        <hr/>
+                        <div className="row">
+                            <div className="one-third column">
+                                <div className="row">
+                                    <button className={virtualizeClass} onClick={this.changeMode} value="virtualize">
+                                        Virtualize
+                                    </button>
+                                </div>
+                                <div className="row">
+                                <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
+                                </div>
+                                <div className="row">
+                                    <button className={captureClass} onClick={this.changeMode} value="capture">Capture
+                                </button>
+                                    </div>
+                                <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">
+                                    Synthesize
+                                </button>
+                            </div>
+                            <div className="two-thirds column">
+                                <ModeInfoComponent data={data}/>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div className="row">
+                            <StatsComponent />
+                        </div>
                     </div>
                 </div>
-                    <hr/>
-                    <div className="row">
-                        <StatsComponent />
-                    </div>
 
             </div>
         )
