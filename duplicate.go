@@ -26,11 +26,15 @@ import (
 func Start(mode, databasePath string) {
 	log.SetFormatter(&log.TextFormatter{})
 
-	log.Info("--------Hoverfly mobile is starting!!-------")
+	log.Info("--------Duplicate mobile is starting!!-------")
 
 	log.SetFormatter(&log.JSONFormatter{})
 
 	cfg := hv.InitSettings()
+
+	// setting debug mode for UI development
+	// FIXME: change when deploying to the phone
+	cfg.Development = true
 
 	// overriding default settings
 	cfg.Mode = mode
@@ -38,7 +42,6 @@ func Start(mode, databasePath string) {
 	// overriding destination
 	cfg.Destination = "."
 
-	//cfg.DatabaseName = "/data/data/dev.client.android/databases/clientDB.db"
 	cfg.DatabaseName = fmt.Sprintf("%s/requests.db", databasePath)
 
 	proxy, dbClient := hv.GetNewHoverfly(cfg)
@@ -97,14 +100,6 @@ func (mc *MasterConfiguration) StartWebUI() {
 func getBoneRouter(m *MasterConfiguration) *bone.Mux {
 	mux := bone.New()
 
-	// preparing static assets for embedded admin
-	statikFS, err := fs.New()
-	if err != nil {
-		log.WithFields(log.Fields{
-			"Error": err.Error(),
-		}).Error("Failed to load statikFS, admin UI might not work :(")
-	}
-
 	mux.Get("/records", http.HandlerFunc(m.hdb.AllRecordsHandler))
 	mux.Delete("/records", http.HandlerFunc(m.hdb.DeleteAllRecordsHandler))
 	mux.Post("/records", http.HandlerFunc(m.hdb.ImportRecordsHandler))
@@ -116,7 +111,19 @@ func getBoneRouter(m *MasterConfiguration) *bone.Mux {
 	mux.Get("/state", http.HandlerFunc(m.hdb.CurrentStateHandler))
 	mux.Post("/state", http.HandlerFunc(m.hdb.StateHandler))
 
-	mux.Handle("/*", http.FileServer(statikFS))
+	if m.hdb.Cfg.Development {
+		log.Warn("Looking for static files in static/dist instead of binary!")
+		mux.Handle("/*", http.FileServer(http.Dir("../../static/dist/")))
+	} else {
+		// preparing static assets for embedded admin
+		statikFS, err := fs.New()
+		if err != nil {
+			log.WithFields(log.Fields{
+				"Error": err.Error(),
+			}).Error("Failed to load statikFS, admin UI might not work :(")
+		}
+		mux.Handle("/*", http.FileServer(statikFS))
+	}
 
 	return mux
 }
