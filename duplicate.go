@@ -34,7 +34,7 @@ func Start(mode, databasePath string) {
 
 	// setting debug mode for UI development
 	// FIXME: change when deploying to the phone
-	cfg.Development = true
+	cfg.Development = false
 
 	// overriding default settings
 	cfg.Mode = mode
