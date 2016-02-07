@@ -77,7 +77,10 @@ let StateChangeComponent = React.createClass({
     displayName: "StateChangeComponent",
 
     getInitialState() {
-        return {"mode": null}
+        return {
+            "mode": null,
+            "ip": null
+        }
     },
 
     getCurrentMode() {
@@ -95,8 +98,24 @@ let StateChangeComponent = React.createClass({
             });
     },
 
+    getSystemInfo() {
+        var url = '/system';
+        var that = this;
+        request
+            .get(url)
+            .end(function (err, res) {
+                if (err) throw err;
+                if (that.isMounted()) {
+                    that.setState({
+                        'ip': res.body.ip
+                    });
+                }
+            });
+    },
+
     componentWillMount() {
         this.getCurrentMode();
+        this.getSystemInfo()
     },
 
     changeMode(e){
@@ -159,8 +178,9 @@ let StateChangeComponent = React.createClass({
                     <div className="container">
                         <div>
                             <h3><strong>Duplicate</strong></h3>
+                            <p>Device IP: <em> {this.state.ip} </em> </p>
                         </div>
-                        <hr/>
+
                         <div className="row">
                             <div className="one-third column">
                                 <div className="row">
