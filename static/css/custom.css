@@ -1,8 +1,8 @@
 /* Shared
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-/*.button {*/
-    /*border-radius: 100px;*/
-/*}*/
+.button {
+    background-color: #e9f2ee; /* Green */
+}
 
 /*.button-primary {*/
     /*border-radius: 100px;*/

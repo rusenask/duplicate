@@ -130,7 +130,10 @@
 	    displayName: "StateChangeComponent",
 
 	    getInitialState: function getInitialState() {
-	        return { "mode": null };
+	        return {
+	            "mode": null,
+	            "ip": null
+	        };
 	    },
 	    getCurrentMode: function getCurrentMode() {
 	        var url = '/state';
@@ -144,8 +147,21 @@
 	            }
 	        });
 	    },
+	    getSystemInfo: function getSystemInfo() {
+	        var url = '/system';
+	        var that = this;
+	        _superagent2.default.get(url).end(function (err, res) {
+	            if (err) throw err;
+	            if (that.isMounted()) {
+	                that.setState({
+	                    'ip': res.body.ip
+	                });
+	            }
+	        });
+	    },
 	    componentWillMount: function componentWillMount() {
 	        this.getCurrentMode();
+	        this.getSystemInfo();
 	    },
 	    changeMode: function changeMode(e) {
 	        var url = '/state';
@@ -214,9 +230,21 @@
 	                                null,
 	                                'Duplicate'
 	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            'Device IP: ',
+	                            _react2.default.createElement(
+	                                'em',
+	                                null,
+	                                ' ',
+	                                this.state.ip,
+	                                ' '
+	                            ),
+	                            ' '
 	                        )
 	                    ),
-	                    _react2.default.createElement('hr', null),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row' },
