@@ -87,7 +87,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'This mode enables service virtualization. Hoverfly uses captured requests and their unique identifiers (such as a query, a method, etc.) to find the best response. In this mode, middleware will be applied to matched responses.'
+	                    'This mode enables service virtualization. Duplicate uses captured requests and their unique identifiers (such as a query, a method, etc.) to find the best response. In this mode, middleware will be applied to matched responses.'
 	                )
 	            );
 	        } else if (mode == CaptureMode) {
@@ -97,7 +97,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'When capture mode is active, Hoverfly intercepts requests and then makes them on behalf of the client. In this mode, middleware is applied to outgoing traffic. Requests and responses are stored in embedded database as JSON structures.'
+	                    'When capture mode is active, Duplicate intercepts requests and then makes them on behalf of the client. In this mode, middleware is applied to outgoing traffic. Requests and responses are stored in embedded database as JSON structures.'
 	                )
 	            );
 	        } else if (mode == SynthesizeMode) {
@@ -117,7 +117,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'Modify mode applies middleware to both outbound and inbound HTTP/HTTPS traffic, allowing you to modify requests and responses on the fly. Hoverfly doesn\'t record anything when modify mode is enabled.'
+	                    'Modify mode applies middleware to both outbound and inbound HTTP/HTTPS traffic, allowing you to modify requests and responses on the fly. Duplicate doesn\'t record anything when modify mode is enabled.'
 	                )
 	            );
 	        } else {
@@ -182,51 +182,79 @@
 	            "mode": this.state.mode
 	        };
 
+	        /* for now these are missing:
+	         <div className="row">
+	         <button className={modifyClass} onClick={this.changeMode} value="modify">Modify</button>
+	         </div>
+	         <div className="row">
+	         <button className={synthesizeClass} onClick={this.changeMode} value="synthesize">
+	         Synthesize
+	         </button>
+	         </div>
+	        *
+	        * */
+
 	        return _react2.default.createElement(
 	            'div',
 	            null,
-	            _react2.default.createElement('hr', null),
 	            _react2.default.createElement(
 	                'div',
-	                { className: 'row' },
+	                { className: 'section hero' },
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'two-thirds column' },
+	                    { className: 'container' },
 	                    _react2.default.createElement(
-	                        'button',
-	                        { className: virtualizeClass, onClick: this.changeMode, value: 'virtualize' },
-	                        'Virtualize'
+	                        'div',
+	                        null,
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            _react2.default.createElement(
+	                                'strong',
+	                                null,
+	                                'Duplicate'
+	                            )
+	                        )
 	                    ),
-	                    ' ',
+	                    _react2.default.createElement('hr', null),
 	                    _react2.default.createElement(
-	                        'button',
-	                        { className: modifyClass, onClick: this.changeMode, value: 'modify' },
-	                        'Modify'
+	                        'div',
+	                        { className: 'row' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'one-third column' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { className: virtualizeClass, onClick: this.changeMode, value: 'virtualize' },
+	                                    'Virtualize'
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { className: captureClass, onClick: this.changeMode, value: 'capture' },
+	                                    'Capture'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'two-thirds column' },
+	                            _react2.default.createElement(ModeInfoComponent, { data: data })
+	                        )
 	                    ),
-	                    ' ',
+	                    _react2.default.createElement('hr', null),
 	                    _react2.default.createElement(
-	                        'button',
-	                        { className: captureClass, onClick: this.changeMode, value: 'capture' },
-	                        'Capture'
-	                    ),
-	                    ' ',
-	                    _react2.default.createElement(
-	                        'button',
-	                        { className: synthesizeClass, onClick: this.changeMode, value: 'synthesize' },
-	                        'Synthesize'
+	                        'div',
+	                        { className: 'row' },
+	                        _react2.default.createElement(_stats2.default, null)
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'one-third column' },
-	                    _react2.default.createElement(ModeInfoComponent, { data: data })
 	                )
-	            ),
-	            _react2.default.createElement('hr', null),
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                _react2.default.createElement(_stats2.default, null)
 	            )
 	        );
 	    }
