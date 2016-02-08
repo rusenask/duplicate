@@ -3,7 +3,7 @@
  * Proprietary and confidential
  * Written by Karolis Rusenas <karolis.rusenas@gmail.com>, February 2016
  */
-package org.golang.example.bind;
+package github.rusenask.duplicate.bind;
 
 import android.app.Activity;
 import android.net.wifi.WifiInfo;
@@ -15,6 +15,8 @@ import go.duplicate.Duplicate;
 
 import android.net.wifi.WifiManager;
 import android.util.Log;
+
+import org.golang.example.bind.R;
 
 import java.util.Locale;
 

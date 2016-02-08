@@ -4,11 +4,13 @@
  * Written by Karolis Rusenas <karolis.rusenas@gmail.com>, February 2016
  */
 
-package org.golang.example.bind;
+package github.rusenask.duplicate.bind;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import org.golang.example.bind.R;
 
 public class WebViewActivity extends Activity {
 

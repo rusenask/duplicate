@@ -21,11 +21,11 @@
         android:label="Duplicate">
 
         <activity
-            android:name=".WebViewActivity"
+            android:name="github.rusenask.duplicate.bind.WebViewActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="github.rusenask.duplicate.bind.MainActivity"
             android:label="@string/appName" >
 
             <intent-filter>
