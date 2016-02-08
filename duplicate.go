@@ -16,6 +16,7 @@ import (
 	"fmt"
 )
 
+// Start - starts main duplicate server (hoverfly + web UI)
 func Start(mode, databasePath, ipAddress string) {
 	log.SetFormatter(&log.TextFormatter{})
 
@@ -50,11 +51,6 @@ func Start(mode, databasePath, ipAddress string) {
 	mc.StartWebUI()
 
 	log.Info("Admin interface started")
-	// start metrics registry flush
-
-	dbClient.Counter.Init()
-
-	log.Info("Metrics counter started")
 
 	log.Info("Starting main proxy...")
 	log.Warn(http.ListenAndServe(fmt.Sprintf(":%s", cfg.ProxyPort), proxy))
