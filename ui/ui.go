@@ -16,11 +16,40 @@ import (
 
 	"encoding/json"
 	"fmt"
+	"sync"
 )
 
+// Score - container to keep user score
+type Score map[string]int
+
+// UserDetails - container for user specific info
+type UserDetails struct {
+	Username  string `json:"username"`
+	UserScore Score  `json:"score"`
+	mu        sync.Mutex
+}
+
+// AddPoints - add points used to increase points for specific types
+// like user.AddPoints("virtualize", 1)
+func (ud *UserDetails) AddPoints(name string, points int) {
+	ud.mu.Lock()
+	ud.UserScore[name] += points
+	ud.mu.Unlock()
+}
+
+// GetScore - used to safely get current user score
+func (ud *UserDetails) GetScore() (score Score) {
+	ud.mu.Lock()
+	score = ud.UserScore
+	ud.mu.Unlock()
+	return
+}
+
+// MasterConfiguration - master configuration
 type MasterConfiguration struct {
-	HDB       *hv.DBClient
-	IPAddress string
+	HDB         *hv.DBClient
+	IPAddress   string
+	UserDetails *UserDetails
 }
 
 // StartAdminInterface - starts admin interface web server
