@@ -11,6 +11,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	hv "github.com/SpectoLabs/hoverfly"
+	score "github.com/rusenask/duplicate/score"
 	ui "github.com/rusenask/duplicate/ui"
 
 	"fmt"
@@ -40,14 +41,28 @@ func Start(mode, databasePath, ipAddress string) {
 
 	proxy, dbClient := hv.GetNewHoverfly(cfg)
 
+	user := &ui.UserDetails{
+		Username:  "todo",
+		UserScore: make(ui.Score)}
+
 	mc := &ui.MasterConfiguration{
-		HDB:       &dbClient,
-		IPAddress: ipAddress,
+		HDB:         &dbClient,
+		IPAddress:   ipAddress,
+		UserDetails: user,
 	}
 	defer dbClient.Cache.DS.Close()
 
-	// starting admin interface
-	//dbClient.StartAdminInterface()
+	// adding hook to count score
+	hook, err := score.NewScoresHook(mc)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err.Error(),
+		}).Error("failed to get scores hook")
+	}
+
+	mc.HDB.AddHook(hook)
+
+	// starting user interface
 	mc.StartWebUI()
 
 	log.Info("Admin interface started")
