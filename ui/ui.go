@@ -29,11 +29,15 @@ type UserDetails struct {
 	mu        sync.Mutex
 }
 
+// TotalScoreName stores total user score
+const TotalScoreName = "total"
+
 // AddPoints - add points used to increase points for specific types
 // like user.AddPoints("virtualize", 1)
 func (ud *UserDetails) AddPoints(name string, points int) {
 	ud.mu.Lock()
 	ud.UserScore[name] += points
+	ud.UserScore[TotalScoreName] += points
 	ud.mu.Unlock()
 }
 
@@ -88,7 +92,9 @@ func getBoneRouter(m *MasterConfiguration) *bone.Mux {
 	mux.Get("/state", http.HandlerFunc(m.HDB.CurrentStateHandler))
 	mux.Post("/state", http.HandlerFunc(m.HDB.StateHandler))
 
+	// duplicate specific details
 	mux.Get("/system", http.HandlerFunc(m.GetSystemInformationHandler))
+	mux.Get("/user", http.HandlerFunc(m.GetUserScore))
 
 	if m.HDB.Cfg.Development {
 		log.Warn("Looking for static files in static/dist instead of binary!")
@@ -131,5 +137,17 @@ func (mc *MasterConfiguration) GetSystemInformationHandler(w http.ResponseWriter
 		w.Write(bts)
 		return
 	}
+}
 
+// GetUserScore - gets score for the current user
+func (mc *MasterConfiguration) GetUserScore(w http.ResponseWriter, req *http.Request) {
+	bts, err := json.Marshal(mc.UserDetails)
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		log.Error(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.Write(bts)
+		return
+	}
 }
